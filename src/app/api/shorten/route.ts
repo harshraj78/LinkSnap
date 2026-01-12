@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
+import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import { generateShortCode } from "@/lib/utils"
 
 export async function POST(req: NextRequest) {
     try {
+        const session = await auth()
+
         const { url, customAlias } = await req.json()
 
         if (!url) {
@@ -58,6 +61,7 @@ export async function POST(req: NextRequest) {
             data: {
                 originalUrl: url,
                 shortCode: shortCode!,
+                userId: session?.user?.id,
             },
         })
 
