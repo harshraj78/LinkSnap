@@ -1,4 +1,4 @@
-import { auth } from "@/auth"
+import { auth, signOut } from "@/auth"
 import { prisma } from "@/lib/db"
 import { redirect } from "next/navigation"
 import Link from "next/link"
@@ -30,7 +30,16 @@ export default async function DashboardPage() {
                         </Link>
                         <div className="flex items-center gap-4">
                             <span className="text-sm text-zinc-600 dark:text-zinc-400">{session.user.email}</span>
-                            {/* SignOut button would go here */}
+                            <form
+                                action={async () => {
+                                    "use server"
+                                    await signOut()
+                                }}
+                            >
+                                <button type="submit" className="text-sm text-red-600 hover:text-red-500 font-medium">
+                                    Sign Out
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

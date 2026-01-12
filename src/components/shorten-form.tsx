@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Link2, Copy, Check, ArrowRight, Loader2, QrCode } from "lucide-react"
+import QRCode from "react-qr-code"
 import { cn } from "@/lib/utils"
 
 export function ShortenForm() {
@@ -138,15 +139,19 @@ export function ShortenForm() {
                             </div>
                         </div>
 
-                        {showQR && (
-                            <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                className="mt-4 flex justify-center"
-                            >
-                                <p className="text-xs text-zinc-500">QR Code placeholder (implement generation next)</p>
-                            </motion.div>
-                        )}
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            className="mt-4 flex flex-col items-center justify-center p-4 bg-white rounded-lg border border-zinc-200"
+                        >
+                            <QRCode
+                                value={`${window.location.host}/${result.shortCode}`}
+                                size={128}
+                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                viewBox={`0 0 256 256`}
+                            />
+                            <p className="mt-2 text-xs text-zinc-500 font-medium">Scan to visit</p>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
